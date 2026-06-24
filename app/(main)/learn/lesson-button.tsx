@@ -1,10 +1,9 @@
 "use client";
 
-import { Check, Crown, Star } from "lucide-react";
+import { Check, Crown, Star, Lock } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
-
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import "react-circular-progressbar/dist/styles.css";
@@ -42,8 +41,6 @@ export const LessonButton = ({
   const isLast = index === totalCount;
   const isCompleted = !current && !locked;
 
-  const Icon = isCompleted ? Check : isLast ? Crown : Star;
-
   const href = isCompleted ? `/lesson/${id}` : "/lesson";
 
   return (
@@ -60,58 +57,60 @@ export const LessonButton = ({
         }}
       >
         {current ? (
-          <div className="relative h-[102px] w-[102px]">
-            <div className="absolute -top-6 left-2.5 z-10 animate-bounce rounded-xl border-2 bg-white px-3 py-2.5 font-bold uppercase tracking-wide text-green-500">
-              Start
-              <div
-                className="absolute -bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 transform border-x-8 border-t-8 border-x-transparent"
-                aria-hidden
-              />
-            </div>
+          <div className="relative h-[108px] w-[108px]">
+            {/* "Start" tooltip */}
+            <motion.div
+              className="absolute -top-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 rounded-2xl bg-gradient-to-r from-emerald-500 to-lime-500 px-3 py-1.5 text-xs font-bold text-white shadow-glow-green whitespace-nowrap"
+              animate={{ y: [0, -4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            >
+              🌟 Start
+              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-0 w-0 border-x-4 border-t-6 border-x-transparent border-t-emerald-500" />
+            </motion.div>
+
+            {/* Circular progress */}
             <CircularProgressbarWithChildren
               value={Number.isNaN(percentage) ? 0 : percentage}
               styles={{
-                path: {
-                  stroke: "#4ade80",
-                },
-                trail: {
-                  stroke: "#e5e7eb",
-                },
+                path: { stroke: "#22C55E" },
+                trail: { stroke: "#d1fae5" },
               }}
             >
-              <Button
-                size="rounded"
-                variant={locked ? "locked" : "secondary"}
-                className="h-[70px] w-[70px] border-b-8"
+              <motion.button
+                className={cn(
+                  "flex h-[70px] w-[70px] items-center justify-center rounded-full border-b-4 shadow-lg transition-all",
+                  "bg-gradient-to-br from-emerald-500 to-lime-500 border-emerald-700 shadow-glow-green"
+                )}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Icon
-                  className={cn(
-                    "h-10 w-10",
-                    locked
-                      ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
-                      : "fill-primary-foreground text-primary-foreground",
-                    isCompleted && "fill-none stroke-[4]"
-                  )}
-                />
-              </Button>
+                <Star className="h-9 w-9 fill-white text-white drop-shadow" />
+              </motion.button>
             </CircularProgressbarWithChildren>
           </div>
         ) : (
-          <Button
-            size="rounded"
-            variant={locked ? "locked" : "secondary"}
-            className="h-[70px] w-[70px] border-b-8"
+          <motion.button
+            className={cn(
+              "flex h-[70px] w-[70px] items-center justify-center rounded-full border-b-4 shadow-md transition-all",
+              isCompleted
+                ? "bg-gradient-to-br from-emerald-400 to-green-500 border-emerald-600 hover:shadow-glow-green"
+                : locked
+                ? "bg-gray-100 border-gray-300 cursor-not-allowed"
+                : "bg-gradient-to-br from-emerald-500 to-lime-500 border-emerald-700 shadow-glow-green"
+            )}
+            whileHover={!locked ? { scale: 1.08, y: -2 } : undefined}
+            whileTap={!locked ? { scale: 0.95 } : undefined}
           >
-            <Icon
-              className={cn(
-                "h-10 w-10",
-                locked
-                  ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
-                  : "fill-primary-foreground text-primary-foreground",
-                isCompleted && "fill-none stroke-[4]"
-              )}
-            />
-          </Button>
+            {isCompleted ? (
+              <Check className="h-8 w-8 stroke-[3] text-white drop-shadow" />
+            ) : isLast ? (
+              <Crown className={cn("h-8 w-8", locked ? "text-gray-400 fill-gray-400" : "text-white fill-white drop-shadow")} />
+            ) : locked ? (
+              <Lock className="h-7 w-7 text-gray-400" />
+            ) : (
+              <Star className="h-8 w-8 fill-white text-white drop-shadow" />
+            )}
+          </motion.button>
         )}
       </div>
     </Link>

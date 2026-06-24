@@ -55,6 +55,9 @@ function makeDb() {
 
   return {
     query: q,
+    findFirst: <T = any>(table: string, opts?: any): T | null => store.findFirst(table, opts) as unknown as T | null,
+    findMany: <T = any>(table: string, opts?: any): T[] => store.findMany(table, opts) as unknown as T[],
+    deleteWhere: (table: string, predicate: any) => store.deleteWhere(table, predicate),
     insert: (table: any, values?: any) => {
       const name = tables[(table as any)?.name ?? table];
       if (values) {

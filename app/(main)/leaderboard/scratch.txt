@@ -1,0 +1,37 @@
+"use client";
+
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { motion } from "framer-motion";
+import { Trophy, TrendingUp, Sparkles, Star, Medal } from "lucide-react";
+
+import { FeedWrapper } from "@/components/feed-wrapper";
+import { Promo } from "@/components/promo";
+import { Quests } from "@/components/quests";
+import { StickyWrapper } from "@/components/sticky-wrapper";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { UserProgress } from "@/components/user-progress";
+import {
+  getTopTenUsers,
+  getUserProgress,
+  getUserSubscription,
+} from "@/db/queries";
+import { use, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+
+// This is a client wrapper around the async data fetching to handle animations
+// For a production app, we would use React Suspense or keeping it a Server Component,
+// but to add Framer Motion easily we make it a client component and fetch data on mount or via props.
+// However, the original code used async/await directly in the page component.
+// We will mock the data fetching for this UI rewrite since we can't easily convert an async Server Component to "use client" directly without passing props.
+
+// Since the original was an async Server Component, let's keep the data fetching on the server
+// and create a Client Component to render the animated UI.
+
+// Wait, I can't export a "use client" component with async setup directly in the Next.js app directory
+// if it's the page component itself doing async data fetching.
+// Let me change the strategy: I'll write the page as a Server Component,
+// and it will import a Client Component for the leaderboard UI.
+// But to keep things simple and within one file for now, I'll remove "use client" and use regular HTML/CSS for the layout, 
+// OR I can use a client component for the feed wrapper and pass the data to it.
