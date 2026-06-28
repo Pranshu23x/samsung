@@ -1,6 +1,6 @@
 # Reading Buddy
 
-> 🏆 **Samsung Innovation Challenge — Health & Education Track**
+> 🏆 **Samsung Solve for Tommrow — Health & Education Track**
 >
 > *An on-device AI reading-fluency companion for India's government schools.*
 
