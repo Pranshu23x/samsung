@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Nunito } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 
 import { ExitModal } from "@/components/modals/exit-modal";
 import { HeartsModal } from "@/components/modals/hearts-modal";
@@ -9,7 +9,18 @@ import { siteConfig } from "@/config";
 
 import "./globals.css";
 
-const font = Nunito({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: "#22C55E",
@@ -23,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={font.className}>
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <body className={`${inter.className} antialiased`}>
         <Toaster theme="light" richColors closeButton />
         <ExitModal />
         <HeartsModal />

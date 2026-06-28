@@ -1,6 +1,8 @@
+"use client";
+
 import { InfinityIcon } from "lucide-react";
 import Image from "next/image";
-
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type ResultCardProps = {
@@ -9,46 +11,61 @@ type ResultCardProps = {
 };
 
 export const ResultCard = ({ value, variant }: ResultCardProps) => {
-  const imageSrc = variant === "points" ? "/points.svg" : "/heart.svg";
-
+  const isPoints = variant === "points";
+  const imageSrc = isPoints ? "/points.svg" : "/heart.svg";
+  
   return (
-    <div
+    <motion.div
       className={cn(
-        "w-full rounded-2xl border-2",
-        variant === "points" && "border-orange-400 bg-orange-400",
-        variant === "hearts" && "border-rose-500 bg-rose-500"
+        "relative w-full overflow-hidden rounded-3xl border-2 p-1 shadow-card transition-all",
+        isPoints 
+          ? "border-amber-400 bg-amber-400/10 shadow-glow-lime" 
+          : "border-rose-400 bg-rose-400/10 shadow-glow-indigo"
       )}
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ type: "spring", bounce: 0.4, duration: 0.6 }}
+      whileHover={{ scale: 1.05 }}
     >
       <div
         className={cn(
-          "rounded-t-xl p-1.5 text-center text-xs font-bold uppercase text-white",
-          variant === "points" && "bg-orange-400",
-          variant === "hearts" && "bg-rose-500"
+          "rounded-2xl p-4 text-center",
+          isPoints ? "bg-gradient-to-br from-amber-400 to-orange-500" : "bg-gradient-to-br from-rose-400 to-rose-600"
         )}
       >
-        {variant === "hearts" ? "Hears Left" : "Total XP"}
-      </div>
+        <p className="mb-2 text-xs font-black uppercase tracking-wider text-white/90">
+          {isPoints ? "XP Earned" : "Hearts Left"}
+        </p>
 
-      <div
-        className={cn(
-          "flex items-center justify-center rounded-2xl bg-white p-6 text-lg font-bold",
-          variant === "points" && "text-orange-400",
-          variant === "hearts" && "text-rose-500"
-        )}
-      >
-        <Image
-          src={imageSrc}
-          alt={variant}
-          height={30}
-          width={30}
-          className="mr-1.5"
-        />
-        {value === Infinity ? (
-          <InfinityIcon className="h-6 w-6 stroke-[3]" />
-        ) : (
-          value
-        )}
+        <div className="flex items-center justify-center gap-2 rounded-xl bg-white p-4 shadow-inner">
+          <motion.div
+            initial={{ rotate: -10 }}
+            animate={{ rotate: [10, -10, 0] }}
+            transition={{ delay: 0.5, duration: 0.5, ease: "easeInOut" }}
+          >
+            <Image
+              src={imageSrc}
+              alt={variant}
+              height={32}
+              width={32}
+              className="drop-shadow-md"
+            />
+          </motion.div>
+
+          <span
+            className={cn(
+              "font-poppins text-2xl font-black",
+              isPoints ? "text-orange-500" : "text-rose-500"
+            )}
+          >
+            {value === Infinity ? (
+              <InfinityIcon className="h-6 w-6 stroke-[3]" />
+            ) : (
+              value
+            )}
+          </span>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
