@@ -99,8 +99,7 @@ Speech recognition tuned for **Indian regional languages** — Hindi, Bengali, M
 ---
 
 ## Technical Background
-
-The developer has hands-on experience building real-time, low-latency audio pipelines — including a production WebSocket-based speech pipeline using Sarvam STT and Groq inference for a live voice-AI assistant, and multi-agent orchestration (CrewAI / LangGraph) for structured decision and feedback systems.
+I Pranshu Kumar and my teamates Shridipa and Shubham have hands-on experience building real-time, low-latency audio pipelines — including a production WebSocket-based speech pipeline using Sarvam STT and Groq inference for a live voice-AI assistant, and multi-agent orchestration (CrewAI / LangGraph) for structured decision and feedback systems.
 
 The reading-fluency scoring and feedback-generation layer extends that same architecture directly.
 
